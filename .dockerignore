@@ -1,0 +1,4 @@
+target
+mint.db
+.gitignore
+Dockerfile
