@@ -1,7 +1,12 @@
 [package]
 name = "mintdb"
-version = "0.1.0"
+version = "0.1.0-beta.1"
 edition = "2021"
+authors = ["ericmrodriguez7@gmail.com"]
+readme = "README.md"
+license = "MIT"
+keywords = ["database", "mintdb"]
+include = ["/src"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -14,7 +19,6 @@ serde_json = "1.0.89"
 thiserror = "1.0.38"
 tokio-fs = "0.1.7"
 uuid = { version = "1.2.2", features = ["serde", "v4"]}
-#tokio = { version = "1.24.2", features = ["macros", "sync", "rt-multi-thread"] }
 
 [dev-dependencies]
 tokio = { version = "1.24.2", features = ["macros", "sync", "rt-multi-thread"] }
