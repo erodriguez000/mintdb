@@ -25,6 +25,7 @@ Introducing MintDB - a powerful, open-source embedded graph database built in Ru
 - A SQL API endpoint for querying your data
 - A Websocket message publishing endpoint for real-time updates
 - Real-time Websocket subscriptions for monitoring table, document, and key mutations
+- [TypeScript SDK](https://www.npmjs.com/package/mintdb-js)
 
 ### Dependencies
 ```toml
@@ -40,6 +41,7 @@ uuid = { version = "1.2.2", features = ["serde", "v4"]}
 warp = "0.3.3"
 thiserror = "1.0.37"
 ```
+# Get Started
 
 # SQL API
 Send a POST request to http://127.0.0.1:8000/sql with the following format

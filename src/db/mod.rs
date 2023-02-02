@@ -1,5 +1,5 @@
 use std::sync::Arc;
-use mintdb::kvs::store::Datastore;
+use mintdb::Datastore;
 use once_cell::sync::OnceCell;
 use mintdb::prelude::*;
 

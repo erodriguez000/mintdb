@@ -551,8 +551,23 @@ dependencies = [
 ]
 
 [[package]]
-name = "mint"
-version = "0.1.0"
+name = "mintdb"
+version = "0.1.0-beta.2"
+dependencies = [
+ "jsonwebtoken",
+ "ring",
+ "serde",
+ "serde_cbor",
+ "serde_json",
+ "thiserror",
+ "tokio",
+ "tokio-fs",
+ "uuid",
+]
+
+[[package]]
+name = "mintdb-server"
+version = "0.1.0-beta.1"
 dependencies = [
  "futures 0.3.25",
  "mintdb",
@@ -564,21 +579,6 @@ dependencies = [
  "tokio-stream",
  "uuid",
  "warp",
-]
-
-[[package]]
-name = "mintdb"
-version = "0.1.0-beta.1"
-dependencies = [
- "jsonwebtoken",
- "ring",
- "serde",
- "serde_cbor",
- "serde_json",
- "thiserror",
- "tokio",
- "tokio-fs",
- "uuid",
 ]
 
 [[package]]
