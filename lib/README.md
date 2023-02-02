@@ -153,7 +153,7 @@ async fn main() -> Result<(), mintdb::err::Error> {
 
 }
 ```
-### Delete
+### Transaction
 
 ```rs
 use mintdb::Datastore;
