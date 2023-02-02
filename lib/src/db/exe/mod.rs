@@ -48,7 +48,11 @@ impl Datastore {
             "CREATE" => self.create_document(&sql.tb, &sql.doc, json!(sql.data)).await,
             "DELETE" => {
                 if let Value::String(key) = &sql.data["key"] {
-                    return self.delete_key(&sql.tb, &sql.doc, key).await
+                    if &sql.doc == "*" {
+                        return self.delete_key_from_table(&sql.tb, key).await;
+                    } else {
+                        return self.delete_key(&sql.tb, &sql.doc, key).await;
+                    }
                 }
                 self.delete_document(&sql.tb, &sql.doc).await
     
