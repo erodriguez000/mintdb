@@ -16,7 +16,7 @@ impl Datastore {
     }
     pub async fn get_table_schema_auth(&self, tb: &str) -> Result<Value> {
         let lock = self.collections.try_read().unwrap();
-        let res = lock.tables.get(tb).ok_or(Error::Request)?;
+        let res = lock.tables.get(tb).ok_or(Error::TableNotFound(tb.into()))?;
         Ok(json!(res.schema))
     }
     pub async fn get_table_rules_auth(&self, tb: &str) -> Result<Value> {
