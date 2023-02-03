@@ -66,4 +66,24 @@ impl Datastore {
         self.merge_auth("auth", &claims.sub, data).await?;
         Ok(())
     }
+    pub async fn get_user(&self, uid: &str) -> Result<Value> {
+        match self.get_one_auth("auth", uid).await {
+            Ok(res) => {
+                Ok(res)
+            }
+            Err(e) => {
+                Err(e)
+            }
+        }
+    }
+    pub async fn list_users(&self) -> Result<Value> {
+        match self.get_many_auth("auth").await {
+            Ok(res) => {
+                Ok(res)
+            }
+            Err(e) => {
+                Err(e)
+            }
+        }
+    }
 }

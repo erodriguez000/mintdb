@@ -131,7 +131,7 @@ impl Datastore {
                     },
                     Err(e) => Ok(json!({"error": e.to_string()}))
                 }
-            },
+            }
             "DFS" => {
                 let rel = match &sql.data["rel"] {
                     Value::String(k) => k.as_str(),
@@ -153,7 +153,7 @@ impl Datastore {
             "BFS" => {
                 let rel = match &sql.data["rel"] {
                     Value::String(k) => k.as_str(),
-                    _ => return Err(Error::RequestMissingKey("target_doc".into()))
+                    _ => return Err(Error::RequestMissingKey("rel".into()))
                 };
                 let target_doc = match &sql.data["target_doc"] {
                     Value::String(k) => k.as_str(),

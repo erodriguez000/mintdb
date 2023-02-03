@@ -80,6 +80,19 @@ impl  Datastore {
             }
         }
     }
+    pub async fn put_document(&self, tb: &str, doc: &str, data: Value) -> Result<Value> {
+        match self.put_document_auth(tb, doc, data).await {
+            Ok(res) => {
+                commit_document(tb, doc, json!(res)).await?;
+                log_merge_event(&f!("PUT DOCUMENT >> Table: '{tb}', Document: '{doc}'")).await?;
+                Ok(res)
+            }
+            Err(e) => {
+                log_error(&f!("MERGE PUT FAILED >> Table: {tb}, Document: '{doc}', Reason: {}", e.to_string())).await?;
+                Err(e)
+            }
+        }
+    }
     pub async fn delete_key(&self, tb: &str, doc: &str, key: &str) -> Result<Value> {
         match self.delete_key_auth(tb, doc, key).await {
             Ok(res) => {

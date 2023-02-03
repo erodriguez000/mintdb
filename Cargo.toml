@@ -7,10 +7,17 @@ readme = "README.md"
 description = "MintDB is an open source document based database built in Rust."
 license = "MIT"
 keywords = ["database", "mintdb"]
+include = ["/src", "/lib"]
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [workspace]
 members = ["lib"]
+
+[profile.release]
+lto = true
+strip = true
+opt-level = 3
+panic = 'abort'
+codegen-units = 1
 
 [dependencies]
 futures = "0.3.25"

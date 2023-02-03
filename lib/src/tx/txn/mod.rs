@@ -1,6 +1,6 @@
 use std::collections::HashMap;
-use std::sync::{Arc};
-use serde_json::{Value, json};
+use std::sync::Arc;
+use serde_json::json;
 use crate::kvs::store::Datastore;
 use crate::prelude::*;
 
@@ -8,7 +8,7 @@ use super::op::{Operation, Tx};
 
 
 impl Datastore {
-    pub async fn transaction(& self) -> Result<Transaction> {
+    pub async fn transaction(&self) -> Result<Transaction> {
         let ok = true;
         let cmt = false;
         let _db = HashMap::new();
@@ -34,68 +34,7 @@ impl<'a> Transaction<'a> {
         self.tx.clear();
         self._db.clear();
     }
-    pub async fn commit(&mut self) -> Result<Value> {
-        if self.ok {
-            return Err(Error::Request)
-        }
-        self.cmt = true;
-        let mut res = vec![];
-        for op in self.tx.clone() {
-            match op {
-                Operation::Credit { tb, doc, key, rhs } => {
-                    let v = self.credit(&tb, &doc, &key, rhs).await?;
-                    res.push(v);
-                }
-                Operation::Debit { tb, doc, key, rhs } => {
-                    let v = self.debit(&tb, &doc, &key, rhs).await?;
-                    res.push(v);
-                }
-                Operation::CreateTable { tb } => {
-                    let v = self.create_table(&tb).await?;
-                    res.push(v);
-                }
-                Operation::CreateDocument { tb, doc, value } => {
-                    let v = self.create_document(&tb, &doc, &value).await?;
-                    res.push(v)
-                }
-                Operation::Update { tb, doc, key, value } => {
-                    let v = self.update(&tb, &doc, &key, &value).await?;
-                    res.push(v);
-                }
-                Operation::Insert { tb, doc, key, value } => {
-                    let v = self.insert(&tb, &doc, &key, &value).await?;
-                    res.push(v);
-                }
-                Operation::Merge { tb, doc, value } => {
-                    let v = self.merge(&tb, &doc, &value).await?;
-                    res.push(v);
-                }
-                Operation::Push { tb, doc, key, value } => {
-                    let v = self.push(&tb, &doc, &key, value).await?;
-                    res.push(v)
-                }
-                Operation::Put { tb, doc, key, value } => {
-                    let v = self.put(&tb, &doc, &key, value).await?;
-                    res.push(v);
-                }
-                Operation::DeleteKey { tb, doc, key } => {
-                    let v = self.delete_key(&tb, &doc, &key).await?;
-                    res.push(v);
-                }
-                Operation::DeleteDocument { tb, doc } => {
-                    let v = self.delete_document(&tb, &doc).await?;
-                    res.push(v);
-                }
-                Operation::DeleteTable { tb } => {
-                    let v = self.delete_tb(&tb).await?;
-                    res.push(v);
-                }
-            }
-        }
-        
-        Ok(json!(res))
-    }
-    pub async fn commit_c(&self) -> Result<()> {
+    pub async fn commit(&mut self) -> Result<()> {
         if self.ok {
             return Err(Error::TxFinished)
         }
@@ -125,6 +64,7 @@ impl<'a> Transaction<'a> {
         for(_, tx) in self._db.iter() {
             self.db.put_document(&tx.tb, &tx.doc, json!(tx.data)).await?;
         }
+        self.ok = true;
         Ok(())
     }
 }

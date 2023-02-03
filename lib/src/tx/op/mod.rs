@@ -1,7 +1,7 @@
 use serde::{Serialize, Deserialize};
 use serde_json::Value;
 
-#[derive(Debug, Clone)]
+#[derive(Deserialize, Debug, Clone)]
 pub enum Operation {
     Update{tb: String, doc: String, key: String, value: Value},
     Insert{tb: String, doc: String, key: String, value: Value},

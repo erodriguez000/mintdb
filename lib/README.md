@@ -26,6 +26,7 @@ async fn main() -> Result<(), mintdb::err::Error> {
 ### CREATE
 
 ```rs
+use serde_json::{Value, json};
 use mintdb::Datastore;
 
 [tokio::main]
@@ -54,6 +55,7 @@ async fn main() -> Result<(), mintdb::err::Error> {
 ### READ
 
 ```rs
+use serde_json::{Value, json};
 use mintdb::Datastore;
 
 [tokio::main]
@@ -99,6 +101,7 @@ async fn main() -> Result<(), mintdb::err::Error> {
 All create a new document and table if they do not exist
 
 ```rs
+use serde_json::json;
 use mintdb::Datastore;
 
 [tokio::main]

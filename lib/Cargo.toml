@@ -9,8 +9,6 @@ license = "MIT"
 keywords = ["database", "mintdb"]
 include = ["/src"]
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
 jsonwebtoken = "8.2.0"
 ring = "0.16.20"

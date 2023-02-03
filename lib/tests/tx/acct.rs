@@ -20,10 +20,10 @@ async fn tx_is_atomic() -> Result<()> {
 
     let mut tx = db.transaction().await?;
     tx.begin();
-    tx.credit_c(tb, doc, key, amt).await?;
-    let r = tx.debit_c(tb, doc2, key, amt).await;
+    tx.credit(tb, doc, key, amt).await?;
+    let r = tx.debit(tb, doc2, key, amt).await;
     assert!(r.is_err());
-    let r = tx.commit_c().await;
+    let r = tx.commit().await;
     assert!(r.is_err());
 
     let res = db.get_one(tb, doc).await?;
@@ -55,9 +55,9 @@ async fn tx_credits_and_debits() -> Result<()> {
 
     let mut tx = db.transaction().await?;
     tx.begin();
-    tx.debit_c(tb, doc, key, amt).await?;
-    tx.credit_c(tb, doc2, key, amt).await?;
-    tx.commit_c().await?;
+    tx.debit(tb, doc, key, amt).await?;
+    tx.credit(tb, doc2, key, amt).await?;
+    tx.commit().await?;
 
     let res = db.get_one(tb, doc).await?;
     assert_eq!(res["balance"], (balance - amt));

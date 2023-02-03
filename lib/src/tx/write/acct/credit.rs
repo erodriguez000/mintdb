@@ -1,35 +1,10 @@
 use serde_json::{Value, json};
 use crate::tx::txn::Transaction;
 use crate::prelude::*;
-use crate::tx::op::{Operation, Tx};
+use crate::tx::op::Tx;
 use crate::util::time::get_unix_time;
 impl<'a> Transaction<'a> {
-    pub async fn credit(&mut self, tb: &str, doc: &str, key: &str, rhs: f64) -> Result<Value> {
-        if self.ok {
-            return Err(Error::TxFinished);
-        }
-        let mut lock = self.db.collections.try_write().unwrap();
-        if let Some(tbl) = lock.tables.get_mut(tb) {
-            if let Some(document) = tbl.documents.get_mut(doc) {
-                if let Some(k) = document.data.get_mut(key) {
-                    if let Some(lhs) = k.as_f64() {
-                        if self.cmt {
-                            let val = json!(lhs + rhs);
-                            document.data.insert("modified".into(), json!("now"));
-                            document.data.insert(key.into(), val);
-                            return Ok(json!(document.data))
-                        } else {
-                            self.tx.push(Operation::Credit { tb: tb.into(), doc: doc.into(), key: key.into(), rhs: rhs });
-                            return Ok(json!("OK"))
-                        }
-                    }
-                }
-            }
-        }
-        self.ok = true;
-        Err(Error::TxFinished)
-    }
-    pub async fn credit_c(&mut self, tb: &str, doc: &str, key: &str, amt: f64) -> Result<Value> {
+    pub async fn credit(&mut self, tb: &str, doc: &str, key: &str, amt: f64) -> Result<Value> {
         if self.ok {
             return Err(Error::TxFinished);
         }

@@ -34,7 +34,7 @@ impl Datastore {
             Ok(res)
         }
     }
-    pub async fn put_document(&self, tb: &str, doc: &str, data: Value) -> Result<Value> {
+    pub async fn put_document_auth(&self, tb: &str, doc: &str, data: Value) -> Result<Value> {
         let data = data.as_object().ok_or(Error::Request)?.to_owned();
         let mut lock = self.collections.try_write().unwrap();
         if let Some(tbl) = lock.tables.get_mut(tb) {

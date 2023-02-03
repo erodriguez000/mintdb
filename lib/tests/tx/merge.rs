@@ -14,14 +14,14 @@ async fn tx_merges() -> Result<()> {
     let mut tx = db.transaction().await?;
     
     tx.begin();
-    tx.merge(tb, doc, &data).await?;
+    tx.merge(tb, doc, data).await?;
     tx.commit().await?;
 
     let data = json!({
         "city": "Miami"
     });
     tx.begin();
-    tx.merge(tb, doc, &data).await?;
+    tx.merge(tb, doc, data).await?;
     tx.commit().await?;
 
     let res = db.get_one_auth(tb, doc).await?;

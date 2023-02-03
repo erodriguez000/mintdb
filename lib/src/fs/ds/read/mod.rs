@@ -40,8 +40,7 @@ pub async fn read_table(db: &Datastore, tb: &str) -> Result<()> {
 
         let document: Document = from_reader(&mut file).unwrap_or_default();
 
-        db.merge(tb, doc_id, json!(document.data)).await?;
-
+        db.merge_auth(tb, doc_id, json!(document.data)).await?;
     }
     Ok(())
 }
