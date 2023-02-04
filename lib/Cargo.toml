@@ -1,9 +1,12 @@
 [package]
 name = "mintdb"
-version = "0.1.0-beta.2"
+version = "0.1.0-beta.3"
 edition = "2021"
-authors = ["ericmrodriguez7@gmail.com"]
+authors = ["Eric Rodriguez <ericmrodriguez7@gmail.com>"]
 readme = "README.md"
+repository = "https://github.com/erodriguez000/mintdb"
+homepage = "https://github.com/erodriguez000/mintdb"
+documentation = "https://docs.rs/mintdb/"
 description = "MintDB is an open source document based database built in Rust."
 license = "MIT"
 keywords = ["database", "mintdb"]
