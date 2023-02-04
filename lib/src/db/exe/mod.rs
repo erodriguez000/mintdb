@@ -14,6 +14,44 @@ pub struct SQL {
     pub message: String,
 }
 impl Datastore {
+    /// executes a SQL statement
+    /// 
+    /// # Examples
+    /// ```
+    /// use mintdb::Datastore;
+    /// use serde_json::json;
+    /// use mintdb::db::exe::SQL;
+    /// 
+    /// #[tokio::main]
+    /// async fn main() ->  Result<(), mintdb::Error> {
+    ///     let db = Datastore::new().await?;
+    ///     let tb = "car";
+    ///     let doc = "car:1";
+    ///     let data = json!({"make": "Mercedes-Benz"});
+    ///     let sql = SQL{
+    ///         stmt: "MERGE".into(),
+    ///         tb: tb.into(),
+    ///         doc: doc.into(),
+    ///         data: data,
+    ///         topic: "".into(),
+    ///         user_id: Some(1),
+    ///         message: "".into(),    
+    ///     };
+    ///     db.execute(&sql).await?;
+    /// 
+    ///     let sql = SQL{
+    ///         stmt: "SELECT".into(),
+    ///         tb: "car".into(),
+    ///         doc: "*".into(),
+    ///         data: json!({}),
+    ///         topic: "".into(),
+    ///         user_id: Some(1),
+    ///         message: "".into(),    
+    ///     };
+    ///     let res = db.execute(&sql).await?;
+    ///     Ok(())
+    /// }
+    /// ```
     pub async fn execute(&self, sql: &SQL) -> Result<Value> {
         match sql.stmt.as_str() {
             "INFO" => {

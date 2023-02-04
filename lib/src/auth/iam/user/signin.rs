@@ -15,6 +15,32 @@ pub struct TokenResponse {
 }
 const SECRET: &str = "secret";
 impl Datastore {
+    /// Signs a user in, returns JWT response or error
+    /// 
+    /// # Examples
+    /// ```
+    /// use mintdb::Datastore;
+    /// use serde_json::json;
+    /// 
+    /// #[tokio::main]
+    /// async fn main() ->  Result<(), mintdb::Error> {
+    ///     let db = Datastore::new().await?;
+    ///     let username = "lucy@gmail.com";
+    ///     let password = "abc123";
+    ///     match db.sign_up(username, password).await {
+    ///         Ok(val) => {
+    ///             println!("User Created");
+    ///         }
+    ///         Err(e) => {
+    ///             println!("User Exists");
+    ///         }
+    ///     };
+    /// 
+    ///     db.sign_in(username, password).await?;
+    ///
+    ///     Ok(())
+    /// }
+    /// ```
     pub async fn sign_in(&self, username: &str, password: &str) -> Result<TokenResponse> {
         let user = self.get_one_auth("auth", username).await?;
         if let Some(hashed_pw) = user.get("pwd") {
@@ -39,6 +65,32 @@ impl Datastore {
             Err(Error::Request)
         }
     }
+    /// Signs a user up, returns JWT response or error if user exists
+    /// 
+    /// # Examples
+    /// ```
+    /// use mintdb::Datastore;
+    /// use serde_json::json;
+    /// 
+    /// #[tokio::main]
+    /// async fn main() ->  Result<(), mintdb::Error> {
+    ///     let db = Datastore::new().await?;
+    ///     let username = "lucy@gmail.com";
+    ///     let password = "abc123";
+    ///     match db.sign_up(username, password).await {
+    ///         Ok(val) => {
+    ///             println!("User Created");
+    ///         }
+    ///         Err(e) => {
+    ///             println!("User Exists");
+    ///         }
+    ///     };
+    /// 
+    ///     db.sign_in(username, password).await?;
+    ///
+    ///     Ok(())
+    /// }
+    /// ```
     pub async fn sign_up(&self, username: &str, pwd: &str) -> Result<TokenResponse> {
         let hashed_password = iam::hash_password(pwd)?;
         let data = json!({
@@ -57,6 +109,34 @@ impl Datastore {
             Err(Error::Request)
         }
     }
+    /// Signs a user out, returns () or error
+    /// 
+    /// # Examples
+    /// ```
+    /// use mintdb::Datastore;
+    /// use serde_json::json;
+    /// 
+    /// #[tokio::main]
+    /// async fn main() ->  Result<(), mintdb::Error> {
+    ///     let db = Datastore::new().await?;
+    ///     let username = "lucy@gmail.com";
+    ///     let password = "abc123";
+    ///     match db.sign_up(username, password).await {
+    ///         Ok(val) => {
+    ///             println!("User Created");
+    ///         }
+    ///         Err(e) => {
+    ///             println!("User Exists");
+    ///         }
+    ///     };
+    /// 
+    ///     let jwt = db.sign_in(username, password).await?;
+    /// 
+    ///     db.sign_out(&jwt.token).await?;
+    ///
+    ///     Ok(())
+    /// }
+    /// ```
     pub async fn sign_out(&self, jwt: &str) -> Result<()> {
         let claims = jwt::decode(jwt, SECRET)?;
         let data = json!({
@@ -66,6 +146,32 @@ impl Datastore {
         self.merge_auth("auth", &claims.sub, data).await?;
         Ok(())
     }
+    /// gets one user, returns user document or error if doesn't exist
+    /// 
+    /// # Examples
+    /// ```
+    /// use mintdb::Datastore;
+    /// use serde_json::json;
+    /// 
+    /// #[tokio::main]
+    /// async fn main() ->  Result<(), mintdb::Error> {
+    ///     let db = Datastore::new().await?;
+    ///     let username = "lucy@gmail.com";
+    ///     let password = "abc123";
+    ///     match db.sign_up(username, password).await {
+    ///         Ok(val) => {
+    ///             println!("User Created");
+    ///         }
+    ///         Err(e) => {
+    ///             println!("User Exists");
+    ///         }
+    ///     };
+    /// 
+    ///     db.get_user(username).await?;
+    ///
+    ///     Ok(())
+    /// }
+    /// ```
     pub async fn get_user(&self, uid: &str) -> Result<Value> {
         match self.get_one_auth("auth", uid).await {
             Ok(res) => {
@@ -76,6 +182,32 @@ impl Datastore {
             }
         }
     }
+    /// gets all users, returns user document or error if doesn't exist
+    /// 
+    /// # Examples
+    /// ```
+    /// use mintdb::Datastore;
+    /// use serde_json::json;
+    /// 
+    /// #[tokio::main]
+    /// async fn main() ->  Result<(), mintdb::Error> {
+    ///     let db = Datastore::new().await?;
+    ///     let username = "lucy@gmail.com";
+    ///     let password = "abc123";
+    ///     match db.sign_up(username, password).await {
+    ///         Ok(val) => {
+    ///             println!("User Created");
+    ///         }
+    ///         Err(e) => {
+    ///             println!("User Exists");
+    ///         }
+    ///     };
+    /// 
+    ///     db.list_users().await?;
+    ///
+    ///     Ok(())
+    /// }
+    /// ```
     pub async fn list_users(&self) -> Result<Value> {
         match self.get_many_auth("auth").await {
             Ok(res) => {

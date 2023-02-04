@@ -19,6 +19,17 @@ pub struct Datastore {
 }
 
 impl Datastore {
+    /// Creates a new Datastore instance
+    /// # Examples
+    /// ```
+    /// use mintdb::Datastore;
+    /// #[tokio::main]
+    /// async fn main() -> Result<(), mintdb::Error> {
+    ///     let db = Datastore::new().await?;
+    ///     Ok(())
+    /// }    
+    /// 
+    /// ```
     pub async fn new() -> Result<Self> {
         let db = Datastore::default();
         
