@@ -6,7 +6,7 @@ use crate::prelude::*;
 use crate::util::time::get_unix_time;
 
 impl Datastore {
-    pub async fn insert_auth(&self, tb:&str, doc: &str, key: &str, value: Value) -> Result<Value> {
+    pub(crate) async fn insert_auth(&self, tb:&str, doc: &str, key: &str, value: Value) -> Result<Value> {
         let mut lock = self.collections.try_write().unwrap();
         if let Some(tbl) = lock.tables.get_mut(tb) {
             if let Some(document) = tbl.documents.get_mut(doc) {

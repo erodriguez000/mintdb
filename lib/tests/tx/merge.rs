@@ -24,7 +24,7 @@ async fn tx_merges() -> Result<()> {
     tx.merge(tb, doc, data).await?;
     tx.commit().await?;
 
-    let res = db.get_one_auth(tb, doc).await?;
+    let res = db.get_one(tb, doc).await?;
     assert_eq!(res["city"], "Miami");
 
     Ok(())

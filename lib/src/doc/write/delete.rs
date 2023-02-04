@@ -4,7 +4,7 @@ use crate::prelude::*;
 use crate::util::time::get_unix_time;
 
 impl Datastore {
-    pub async fn delete_key_auth(&self, tb: &str, doc: &str, key: &str) -> Result<Value> {
+    pub(crate) async fn delete_key_auth(&self, tb: &str, doc: &str, key: &str) -> Result<Value> {
         let mut lock = self.collections.try_write().unwrap();
         let document = lock.tables
         .get_mut(tb)
@@ -17,7 +17,7 @@ impl Datastore {
         
         Ok(json!(document.data))
     }
-    pub async fn delete_document_auth(&self, tb: &str, doc: &str) -> Result<Value> {
+    pub(crate) async fn delete_document_auth(&self, tb: &str, doc: &str) -> Result<Value> {
         let mut lock = self.collections.try_write().unwrap();
         let document = lock.tables.get_mut(tb)
         .ok_or(Error::TableNotFound(tb.into()))?

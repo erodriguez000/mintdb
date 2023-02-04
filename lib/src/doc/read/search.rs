@@ -3,7 +3,7 @@ use crate::kvs::store::Datastore;
 use crate::prelude::*;
 
 impl Datastore {
-    pub async fn find_auth(&self, tb: &str, data: Value) -> Result<Value> {
+    pub(crate) async fn find_auth(&self, tb: &str, data: Value) -> Result<Value> {
         let mut res = vec![];
         let lock = self.collections.try_read().unwrap();
         let tbl = lock.tables.get(tb).ok_or(Error::TableNotFound(tb.into()))?;
@@ -19,7 +19,7 @@ impl Datastore {
         }
         Ok(json!(res))
     }
-    pub async fn match_auth(&self, tb: &str, data: Value) -> Result<Value> {
+    pub(crate) async fn match_auth(&self, tb: &str, data: Value) -> Result<Value> {
         let data = data.as_object().ok_or(Error::Request)?;
         let mut res = vec![];
         let lock = self.collections.try_read().unwrap();

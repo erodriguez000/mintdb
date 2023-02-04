@@ -4,7 +4,7 @@ use crate::kvs::store::Datastore;
 use crate::prelude::*;
 
 impl Datastore {
-    pub async fn compare_auth(&self, tb: &str, lhs: &str, op: &str, rhs: &Value) -> Result<Value> {
+    pub(crate) async fn compare_auth(&self, tb: &str, lhs: &str, op: &str, rhs: &Value) -> Result<Value> {
         let documents = self.get_many(tb).await?.as_array().ok_or(Error::Request)?.to_owned();
         let mut res = vec![];
         match op {
