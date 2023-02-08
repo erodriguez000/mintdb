@@ -1,9 +1,10 @@
 <p align="center">
-    <img width="400" src="../img/logo.svg" alt="mintDB Icon">
+    <img width="400" src="../img/logo-light.svg#gh-light-mode-only" alt="mintDB-JS Logo">
+    <img width="400" src="../img/logo.svg#gh-dark-mode-only" alt="mintDB-JS Logo">
 </p>
 <h2 align="center">An Open Source Graph Database</h2>
 <p align="center">
-    <img src="https://img.shields.io/badge/version-0.1.0beta-10d99d">
+    <img src="https://img.shields.io/badge/version-≈-10d99d">
     <img src="https://img.shields.io/badge/built_with-Rust-dca282.svg">
     <img src="https://img.shields.io/badge/license-MIT-critical">
     <a href="https://www.linkedin.com/in/eric-rodriguez-3a402811b/"><img src="https://img.shields.io/badge/linkedIn-connect-4777AF"></a>
@@ -11,6 +12,15 @@
 
 # Getting Started
 
+```
+cargo add mintdb
+```
+
+or add the following to your Cargo.toml
+
+```toml
+mintdb = "0.1.0-beta.3
+```
 ### Create a new Datastore instance
 
 ```rs
@@ -134,6 +144,7 @@ async fn main() -> Result<(), mintdb::err::Error> {
 ### Delete
 
 ```rs
+use serde_json::json;
 use mintdb::Datastore;
 
 [tokio::main]
@@ -159,6 +170,7 @@ async fn main() -> Result<(), mintdb::err::Error> {
 ### Transaction
 
 ```rs
+use serde_json::json;
 use mintdb::Datastore;
 
 [tokio::main]

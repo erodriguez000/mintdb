@@ -1,9 +1,10 @@
 <p align="center">
-    <img width="400" src="img/logo.svg" alt="mintDB Icon">
+    <img width="400" src="./img/logo-light.svg#gh-light-mode-only" alt="mintDB Logo">
+    <img width="400" src="./img/logo.svg#gh-dark-mode-only" alt="mintDB Logo">
 </p>
 <h2 align="center">An Open Source Graph Database</h2>
 <p align="center">
-    <img src="https://img.shields.io/badge/version-0.1.0beta-10d99d">
+    <img src="https://img.shields.io/badge/version-0.1.0_beta.3-10d99d">
     <img src="https://img.shields.io/badge/built_with-Rust-dca282.svg">
     <img src="https://img.shields.io/badge/license-MIT-critical">
     <a href="https://www.linkedin.com/in/eric-rodriguez-3a402811b/"><img src="https://img.shields.io/badge/linkedIn-connect-4777AF"></a>
@@ -43,6 +44,20 @@ thiserror = "1.0.37"
 ```
 # Get Started
 
+Install the mintdb-server binary
+
+```
+cargo install mintdb-server@0.1.0-beta.3
+```
+
+Run the server
+
+```
+mintdb-server
+```
+
+Open http://127.0.0.1:8000 in your browser
+
 # SQL API
 Send a POST request to http://127.0.0.1:8000/sql with the following format
 ```json
@@ -50,9 +65,9 @@ Send a POST request to http://127.0.0.1:8000/sql with the following format
     "stmt": "String",
     "tb": "String",
     "doc": "String",
-    "data": Map<String, JSONValue>,
+    "data": {},
     "topic": "String",
-    "user_id": Option<number>,
+    "user_id": 1,
     "message": "String",
 }
 ```
@@ -169,11 +184,11 @@ curl -X POST 'http://127.0.0.1:8000/sql' -H 'Content-Type: application/json' -d 
 
 ### COMPARE
 Find data by passing a Map of:
-```json
+```ts
 {
-    "lhs": <String>, // The key of the document to compare.
-    "op" <Operator>, // The operation to compare ("==", "!=" "<=" "<" ">=" ">" "contains" "icontains")
-    "rhs": <String | Number> // The value to compare. Contains and icontains must use String
+    "lhs": "string", // The key of the document to compare.
+    "op": "operator", // The operation to compare ("==", "!=" "<=" "<" ">=" ">" "contains" or "icontains")
+    "rhs": "string or number" // The value to compare. Contains and icontains must use String
 }
 ```
 
